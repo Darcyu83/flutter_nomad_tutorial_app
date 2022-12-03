@@ -1,9 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_toonflix/data.dart';
 import 'package:flutter_toonflix/widgets/button.dart';
 import 'package:flutter_toonflix/widgets/currency_card.dart';
 
 void main() {
   runApp(const App());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<int> numbers = [];
+
+  void onClick() {
+    setState(() {
+      numbers.add(numbers.length);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.blueGrey,
+        body: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Counter',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+            for (var num in numbers)
+              Text(
+                '$num',
+                style: const TextStyle(
+                  fontSize: 16,
+                  decoration: TextDecoration.underline,
+                  color: Colors.white,
+                ),
+              ),
+            IconButton(
+              iconSize: 40,
+              onPressed: onClick,
+              icon: const Icon(Icons.add_box_rounded),
+            )
+          ],
+        )),
+      ),
+    );
+  }
 }
 
 class App extends StatelessWidget {
@@ -110,38 +164,48 @@ class App extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const CurrencyCard(
-                    title: 'Euro',
-                    amount: '6 500',
-                    currencyCode: 'EUR',
-                    currencyIcon: Icons.euro_rounded,
-                    isInverted: false,
-                    index: 0,
-                  ),
-                  const CurrencyCard(
-                    title: 'Dollar',
-                    amount: '55 620',
-                    currencyCode: 'US',
-                    currencyIcon: Icons.monetization_on_outlined,
-                    isInverted: true,
-                    index: 1,
-                  ),
-                  const CurrencyCard(
-                    title: 'Rupee',
-                    amount: '26 500',
-                    currencyCode: 'INR',
-                    currencyIcon: Icons.currency_rupee_rounded,
-                    isInverted: false,
-                    index: 2,
-                  ),
-                  const CurrencyCard(
-                    title: 'BitCoin',
-                    amount: '26 500',
-                    currencyCode: 'BTC',
-                    currencyIcon: Icons.currency_bitcoin_rounded,
-                    isInverted: true,
-                    index: 3,
-                  ),
+                  // const CurrencyCard(
+                  //   title: 'Euro',
+                  //   amount: '6 500',
+                  //   currencyCode: 'EUR',
+                  //   currencyIcon: Icons.euro_rounded,
+                  //   isInverted: false,
+                  //   index: 0,
+                  // ),
+                  // const CurrencyCard(
+                  //   title: 'Dollar',
+                  //   amount: '55 620',
+                  //   currencyCode: 'US',
+                  //   currencyIcon: Icons.monetization_on_outlined,
+                  //   isInverted: true,
+                  //   index: 1,
+                  // ),
+                  // const CurrencyCard(
+                  //   title: 'Rupee',
+                  //   amount: '26 500',
+                  //   currencyCode: 'INR',
+                  //   currencyIcon: Icons.currency_rupee_rounded,
+                  //   isInverted: false,
+                  //   index: 2,
+                  // ),
+                  // const CurrencyCard(
+                  //   title: 'BitCoin',
+                  //   amount: '26 500',
+                  //   currencyCode: 'BTC',
+                  //   currencyIcon: Icons.currency_bitcoin_rounded,
+                  //   isInverted: true,
+                  //   index: 3,
+                  // ),
+
+                  for (var currency in currencyApiData)
+                    CurrencyCard(
+                      title: currency['title'],
+                      amount: currency['amount'],
+                      currencyCode: currency['currencyCode'],
+                      currencyIcon: currency['currencyIcon'],
+                      isInverted: currency['isInverted'],
+                      index: 0,
+                    ),
                 ],
               ),
             ),
@@ -151,36 +215,3 @@ class App extends StatelessWidget {
     // return CupertinoApp();
   }
 }
-
-typedef CurrencyData = List<Map<String, dynamic>>;
-
-const CurrencyData currencyApiData = [
-  {
-    'title': 'Euro',
-    'amount': '6 500',
-    'currencyCode': 'EUR',
-    'currencyIcon': Icons.euro_rounded,
-    'isInverted': false,
-  },
-  {
-    'title': 'Dollar',
-    'amount': '55 620',
-    'currencyCode': 'US',
-    'currencyIcon': Icons.monetization_on_outlined,
-    'isInverted': true,
-  },
-  {
-    'title': 'Rupee',
-    'amount': '26 500',
-    'currencyCode': 'INR',
-    'currencyIcon': Icons.currency_rupee_rounded,
-    'isInverted': false,
-  },
-  {
-    'title': 'BitCoin',
-    'amount': '26 500',
-    'currencyCode': 'BTC',
-    'currencyIcon': Icons.currency_bitcoin_rounded,
-    'isInverted': true,
-  }
-];
