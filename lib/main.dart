@@ -4,7 +4,7 @@ import 'package:flutter_toonflix/widgets/button.dart';
 import 'package:flutter_toonflix/widgets/currency_card.dart';
 
 void main() {
-  runApp(const App());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -17,6 +17,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<int> numbers = [];
 
+  bool showTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
+    });
+  }
+
   void onClick() {
     setState(() {
       numbers.add(numbers.length);
@@ -26,19 +34,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          textTheme: const TextTheme(
+        titleLarge: TextStyle(color: Colors.red),
+      )),
       home: Scaffold(
         backgroundColor: Colors.blueGrey,
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Counter',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-              ),
-            ),
+            showTitle ? const MyLargeTitle() : const Text(''),
             for (var num in numbers)
               Text(
                 '$num',
@@ -52,9 +58,47 @@ class _MyAppState extends State<MyApp> {
               iconSize: 40,
               onPressed: onClick,
               icon: const Icon(Icons.add_box_rounded),
-            )
+            ),
+            IconButton(
+                onPressed: toggleTitle,
+                icon: const Icon(Icons.remove_red_eye_outlined))
           ],
         )),
+      ),
+    );
+  }
+}
+
+class MyLargeTitle extends StatefulWidget {
+  const MyLargeTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  @override
+  void initState() {
+    super.initState();
+    print('initState');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('build');
+    return Text(
+      'Counter',
+      style: TextStyle(
+        fontSize: 20,
+        color: Theme.of(context).textTheme.titleLarge?.color,
       ),
     );
   }
